@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daftar Penerima Sertifikat – EventGuru</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blue-deep: #0d1b6e;
+    --blue-mid: #1a3fa6;
+    --teal: #00b4d8;
+    --teal-light: #90e0ef;
+    --orange: #f77f00;
+    --orange-light: #fcbf49;
+    --purple: #7c3aed;
+    --green: #16a34a;
+    --white: #ffffff;
+    --gray-50: #f8fafc;
+    --gray-100: #f1f5f9;
+    --gray-200: #e2e8f0;
+    --gray-500: #64748b;
+    --gray-700: #334155;
+    --gray-900: #0f172a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: var(--gray-100);
+    color: var(--gray-900);
+    min-height: 100vh;
+  }
+
+  /* ── HEADER NAV ── */
+  .top-nav {
+    background: linear-gradient(135deg, var(--blue-deep) 0%, var(--blue-mid) 60%, var(--teal) 100%);
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 4px 24px rgba(13,27,110,.35);
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+  }
+
+  .logo-box {
+    width: 38px; height: 38px;
+    background: var(--white);
+    border-radius: 8px;
+    display: grid;
+    place-items: center;
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--blue-deep);
+    letter-spacing: -1px;
+  }
+
+  .logo-text {
+    color: var(--white);
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: .5px;
+  }
+
+  .logo-text span { color: var(--teal-light); }
+
+  /* ── HERO BANNER ── */
+  .hero {
+    background: linear-gradient(135deg, var(--blue-deep) 0%, #162580 50%, var(--teal) 100%);
+    padding: 32px 20px 28px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 80% at 90% -10%, rgba(0,180,216,.25) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 60% at -10% 110%, rgba(124,58,237,.2) 0%, transparent 70%);
+  }
+
+  .hero-inner {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    max-width: 700px;
+  }
+
+  .hero-icon {
+    width: 56px; height: 56px;
+    background: rgba(255,255,255,.15);
+    border: 2px solid rgba(255,255,255,.3);
+    border-radius: 14px;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    font-size: 26px;
+    backdrop-filter: blur(6px);
+  }
+
+  .hero-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--teal-light);
+    margin-bottom: 6px;
+  }
+
+  .hero-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(17px, 4vw, 22px);
+    color: var(--white);
+    line-height: 1.35;
+    margin-bottom: 10px;
+  }
+
+  .hero-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .meta-chip {
+    background: rgba(255,255,255,.12);
+    border: 1px solid rgba(255,255,255,.2);
+    backdrop-filter: blur(4px);
+    color: var(--white);
+    font-size: 12px;
+    font-weight: 500;
+    padding: 4px 10px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  /* ── MAIN CONTENT ── */
+  .container {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 24px 16px 60px;
+  }
+
+  /* ── CARD ── */
+  .card {
+    background: var(--white);
+    border-radius: 20px;
+    padding: 28px 24px;
+    box-shadow: 0 2px 20px rgba(0,0,0,.07), 0 0 0 1px rgba(0,0,0,.03);
+    margin-bottom: 16px;
+    animation: fadeUp .4s ease both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .card-title {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 22px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .card-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, var(--teal-light), transparent);
+  }
+
+  /* ── DETAIL ROWS ── */
+  .detail-row {
+    display: flex;
+    align-items: flex-start;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--gray-100);
+    gap: 16px;
+  }
+
+  .detail-row:last-child { border-bottom: none; }
+
+  .detail-label {
+    min-width: 90px;
+    font-size: 13px;
+    color: var(--gray-500);
+    font-weight: 500;
+    padding-top: 2px;
+    flex-shrink: 0;
+  }
+
+  .detail-colon {
+    color: var(--gray-500);
+    font-weight: 600;
+    padding-top: 2px;
+    flex-shrink: 0;
+  }
+
+  .detail-value {
+    font-size: 14px;
+    color: var(--gray-900);
+    font-weight: 600;
+    line-height: 1.5;
+  }
+
+  /* ── STATUS BADGE ── */
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #dcfce7;
+    color: var(--green);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 20px;
+    border: 1.5px solid #86efac;
+  }
+
+  .status-dot {
+    width: 8px; height: 8px;
+    background: var(--green);
+    border-radius: 50%;
+    animation: pulse 2s ease infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50%       { transform: scale(1.3); opacity: .7; }
+  }
+
+  /* ── BUTTONS ── */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    border: none;
+    letter-spacing: .5px;
+    transition: transform .15s, box-shadow .15s, filter .15s;
+    text-decoration: none;
+  }
+
+  .btn:hover { transform: translateY(-2px); filter: brightness(1.08); }
+  .btn:active { transform: translateY(0); }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--purple) 0%, #9333ea 100%);
+    color: var(--white);
+    box-shadow: 0 4px 14px rgba(124,58,237,.4);
+  }
+
+  .btn-secondary {
+    background: linear-gradient(135deg, var(--orange) 0%, var(--orange-light) 100%);
+    color: var(--white);
+    box-shadow: 0 4px 14px rgba(247,127,0,.35);
+  }
+
+  /* ── QR ── */
+  .qr-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    padding: 20px;
+    background: var(--gray-50);
+    border-radius: 16px;
+    border: 2px dashed var(--gray-200);
+  }
+
+  .qr-label {
+    font-size: 12px;
+    color: var(--gray-500);
+    font-weight: 600;
+    letter-spacing: .5px;
+  }
+
+  .qr-svg {
+    width: 110px; height: 110px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 14px rgba(0,0,0,.12);
+    background: white;
+    padding: 8px;
+    display: grid;
+    place-items: center;
+  }
+
+  /* Simple QR-like SVG pattern */
+  .qr-inner {
+    width: 94px; height: 94px;
+  }
+
+  /* ── PARTNERS ── */
+  .partners {
+    background: var(--white);
+    border-radius: 20px;
+    padding: 28px 24px;
+    box-shadow: 0 2px 20px rgba(0,0,0,.07);
+    text-align: center;
+    animation: fadeUp .5s .1s ease both;
+  }
+
+  .partners-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    color: var(--gray-900);
+    margin-bottom: 4px;
+  }
+
+  .partners-sub {
+    font-size: 13px;
+    color: var(--gray-500);
+    margin-bottom: 20px;
+  }
+
+  .partner-logos {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  .partner-chip {
+    background: var(--gray-100);
+    border-radius: 10px;
+    padding: 8px 16px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--gray-700);
+    border: 1.5px solid var(--gray-200);
+    transition: border-color .2s, transform .2s;
+  }
+
+  .partner-chip:hover { border-color: var(--teal); transform: translateY(-2px); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--blue-deep);
+    color: rgba(255,255,255,.7);
+    padding: 40px 20px 24px;
+    margin-top: 32px;
+  }
+
+  .footer-grid {
+    max-width: 900px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr 1fr;
+    gap: 28px;
+    margin-bottom: 32px;
+  }
+
+  @media (max-width: 640px) {
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  .footer-brand {
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  .footer-brand strong {
+    display: block;
+    color: var(--white);
+    font-size: 14px;
+    margin-bottom: 6px;
+  }
+
+  .footer-col h4 {
+    color: var(--white);
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    letter-spacing: .5px;
+  }
+
+  .footer-col ul { list-style: none; }
+
+  .footer-col li {
+    font-size: 12.5px;
+    margin-bottom: 6px;
+    color: rgba(255,255,255,.6);
+    cursor: pointer;
+    transition: color .2s;
+  }
+
+  .footer-col li:hover { color: var(--teal-light); }
+
+  .footer-bottom {
+    max-width: 900px;
+    margin: 0 auto;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,.1);
+    text-align: center;
+    font-size: 12px;
+    color: rgba(255,255,255,.4);
+  }
+</style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<nav class="top-nav">
+  <a href="#" class="logo">
+    <div class="logo-box">eg</div>
+    <span class="logo-text">event<span>guru</span></span>
+  </a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-icon">🏆</div>
+    <div>
+      <p class="hero-label">Daftar Penerima Sertifikat</p>
+      <h1 class="hero-title">Webinar Nasional 8JP: "Strategi Optimalisasi Well-Being untuk Lingkungan Belajar yang Aman dan Kondusif Nyaman, dan Inklusif"</h1>
+      <div class="hero-meta">
+        <span class="meta-chip">👤 Atma Karta</span>
+        <span class="meta-chip">📅 22 Mei 2026</span>
+        <span class="meta-chip">🕖 19:30 WIB</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MAIN -->
+<main class="container">
+
+  <!-- CERTIFICATE DETAIL CARD -->
+  <div class="card">
+    <p class="card-title">🎓 Sertifikat Peserta Terdaftar</p>
+
+    <div class="detail-row">
+      <span class="detail-label">Nama</span>
+      <span class="detail-colon">:</span>
+      <span class="detail-value">Dhany R Musati</span>
+    </div>
+
+    <div class="detail-row">
+      <span class="detail-label">Instansi</span>
+      <span class="detail-colon">:</span>
+      <span class="detail-value">Universitas Tadulako</span>
+    </div>
+
+    <div class="detail-row">
+      <span class="detail-label">Status</span>
+      <span class="detail-colon">:</span>
+      <span class="detail-value">
+        <span class="status-badge">
+          <span class="status-dot"></span>
+          Status Peserta Tervalidasi
+        </span>
+      </span>
+    </div>
+
+    <div class="detail-row">
+      <span class="detail-label">Sertifikat</span>
+      <span class="detail-colon">:</span>
+      <span class="detail-value">
+        <button class="btn btn-primary">⬇ Download Sertifikat</button>
+      </span>
+    </div>
+
+    <div class="detail-row">
+      <span class="detail-label">Fasilitas</span>
+      <span class="detail-colon">:</span>
+      <span class="detail-value">
+        <button class="btn btn-secondary">⬇ Download Fasilitas</button>
+      </span>
+    </div>
+
+    <div class="detail-row">
+      <span class="detail-label">Validasi QR</span>
+      <span class="detail-colon">:</span>
+      <span class="detail-value" style="width:100%">
+        <div class="qr-wrapper">
+          <div class="qr-svg">
+            <!-- Simple QR-like SVG -->
+            <svg class="qr-inner" viewBox="0 0 94 94" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- top-left finder -->
+              <rect x="4" y="4" width="26" height="26" rx="3" fill="#0d1b6e"/>
+              <rect x="9" y="9" width="16" height="16" rx="2" fill="white"/>
+              <rect x="13" y="13" width="8" height="8" fill="#0d1b6e"/>
+              <!-- top-right finder -->
+              <rect x="64" y="4" width="26" height="26" rx="3" fill="#0d1b6e"/>
+              <rect x="69" y="9" width="16" height="16" rx="2" fill="white"/>
+              <rect x="73" y="13" width="8" height="8" fill="#0d1b6e"/>
+              <!-- bottom-left finder -->
+              <rect x="4" y="64" width="26" height="26" rx="3" fill="#0d1b6e"/>
+              <rect x="9" y="69" width="16" height="16" rx="2" fill="white"/>
+              <rect x="13" y="73" width="8" height="8" fill="#0d1b6e"/>
+              <!-- random data dots -->
+              <rect x="36" y="4" width="6" height="6" fill="#0d1b6e"/>
+              <rect x="44" y="4" width="6" height="6" fill="#0d1b6e"/>
+              <rect x="52" y="4" width="6" height="6" fill="#0d1b6e"/>
+              <rect x="36" y="12" width="6" height="6" fill="#0d1b6e"/>
+              <rect x="52" y="12" width="6" height="6" fill="#0d1b6e"/>
+              <rect x="44" y="20" width="6" height="6" fill="#0d1b6e"/>
+              <rect x="36" y="28" width="6" height="6" fill="#0d1b6e"/>
+              <rect x="52" y="28" width="6" height="6" fill="#0d1b6e"/>
+              <rect x="4" y="36" width="6" height="6" fill="#0d1b6e"/>
+              <rect x="12" y="36" width="6" height="6" fill="#0d1b6e"/>
+              <rect x="20" y="36" width="6" height="6" fill="#0d1b6e"/>
+              <rect x="36" y="36" width="6" height="6" fill="#0d1b6e"/>
+              <rect x="44" y="36" width="6" height="6" fill="#0d1b6e"/>
+              <rect x="60" y="36" width="6" height="6" fill="#0d1b6e"/>
+              <rect x="76" y="36" width="6" height="6" fill="#0d1b6e"/>
+              <rect x="84" y="36" width="6" height="6" fill="#0d1b6e"/>
+              <rect x="4" y="44" width="6" height="6" fill="#0d1b6e"/>
+              <rect x="20" y="44" width="6" height="6" fill="#0d1b6e"/>
+              <rect x="36" y="44" width="6" height="6" fill="#0d1b6e"/>
+              <rect x="52" y="44" width="6" height="6" fill="#0d1b6e"/>
+              <rect x="68" y="44" width="6" height="6" fill="#0d1b6e"/>
+              <rect x="84" y="44" width="6" height="6" fill="#0d1b6e"/>
+              <rect x="4" y="52" width="6" height="6" fill="#0d1b6e"/>
+              <rect x="12" y="52" width="6" height="6" fill="#0d1b6e"/>
+              <rect x="28" y="52" width="6" height="6" fill="#0d1b6e"/>
+              <rect x="44" y="52" width="6" height="6" fill="#0d1b6e"/>
+              <rect x="60" y="52" width="6" height="6" fill="#0d1b6e"/>
+              <rect x="76" y="52" width="6" height="6" fill="#0d1b6e"/>
+              <rect x="36" y="60" width="6" height="6" fill="#0d1b6e"/>
+              <rect x="52" y="60" width="6" height="6" fill="#0d1b6e"/>
+              <rect x="68" y="60" width="6" height="6" fill="#0d1b6e"/>
+              <rect x="84" y="60" width="6" height="6" fill="#0d1b6e"/>
+              <rect x="36" y="68" width="6" height="6" fill="#0d1b6e"/>
+              <rect x="44" y="68" width="6" height="6" fill="#0d1b6e"/>
+              <rect x="60" y="68" width="6" height="6" fill="#0d1b6e"/>
+              <rect x="76" y="68" width="6" height="6" fill="#0d1b6e"/>
+              <rect x="36" y="76" width="6" height="6" fill="#0d1b6e"/>
+              <rect x="52" y="76" width="6" height="6" fill="#0d1b6e"/>
+              <rect x="68" y="76" width="6" height="6" fill="#0d1b6e"/>
+              <rect x="84" y="76" width="6" height="6" fill="#0d1b6e"/>
+              <rect x="36" y="84" width="6" height="6" fill="#0d1b6e"/>
+              <rect x="52" y="84" width="6" height="6" fill="#0d1b6e"/>
+            </svg>
+          </div>
+          <span class="qr-label">Scan untuk validasi sertifikat</span>
+        </div>
+      </span>
+    </div>
+  </div>
+
+  <!-- PARTNERS -->
+  <div class="partners">
+    <h2 class="partners-title">Mitra Kerjasama</h2>
+    <p class="partners-sub">Edukarya Ecosystem</p>
+    <div class="partner-logos">
+      <span class="partner-chip">🏆 Guru Juara</span>
+      <span class="partner-chip">💬 Ruang Temu Guru</span>
+      <span class="partner-chip">🌸 PAUD Ceria</span>
+      <span class="partner-chip">📚 Belajar Ceria</span>
+    </div>
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <strong>CV. Edukarya Gemilang Jaya</strong>
+      Platform sertifikasi dan pengembangan pendidik profesional di seluruh Indonesia.
+    </div>
+    <div class="footer-col">
+      <h4>Cabang</h4>
+      <ul>
+        <li>Kota Semarang, Jawa Tengah</li>
+        <li>Kota Surakarta, Jawa Tengah</li>
+        <li>Kota Yogya, Yogyakarta</li>
+        <li>Kota Malang, Jawa Timur</li>
+        <li>Kota Surabaya, Jawa Timur</li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li>Tentang Kami</li>
+        <li>Kerjasama</li>
+        <li>Youtube</li>
+        <li>Instagram</li>
+        <li>Telegram</li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Ecosystem</h4>
+      <ul>
+        <li>Sapanesia ID</li>
+        <li>Blog</li>
+        <li>Studio Bahan Ajar</li>
+        <li>Talenta Karta</li>
+        <li>Vocation</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    2021 – 2026 #Edukarya Ecosystem &nbsp;·&nbsp; Designed by Studio Bahan Ajar
+  </div>
+</footer>
+
+</body>
+</html>
